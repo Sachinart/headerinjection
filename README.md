@@ -9,6 +9,7 @@ Install HeaderInjection
 ```bash
   git clone https://github.com/themalwarenews/headerinjection/
   cd headerinjection
+pip3 install pyfiglet
   python3 headerinjection.py [ -d or -f ] [ DOMAIN or List of domain ]
 
   eg:
