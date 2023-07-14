@@ -58,7 +58,23 @@ def main():
         "X-Host",
         "X-Originating-IP",
         "X-Forwarded-For",
-        "X-Real-IP"
+        "X-Real-IP",
+        "User-Agent",
+        "Origin",
+        "Referer",
+        "Accept",
+        "Content-Type",
+        "x-ip",
+        "X-Content-Type-Options",
+        "X-Content-Type",
+        "X-HTTP-Host-Override",
+        "X-Forwarded-Server",
+        "Forwarded",
+        "X-ProxyUser-Ip",
+        "X-Forwarded-Proto",
+        "Access-Token",
+        "token",
+        "Client-Ip"
     ]
 
     if len(sys.argv) < 3:
