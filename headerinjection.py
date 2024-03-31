@@ -1,6 +1,7 @@
 import sys
 import subprocess
 from pyfiglet import Figlet
+from concurrent.futures import ThreadPoolExecutor
 
 def print_colored_message(color_code, message):
     colors = {
@@ -31,9 +32,9 @@ def execute_subprocess(command):
 
 def is_url_vulnerable_to_injection(url, headers):
     for header in headers:
-        cmd = ['curl', '--head', '--max-time', '10', '-s', '-H', f'{header}: iamsharan.com', url]
+        cmd = ['curl', '--head', '--max-time', '10', '-s', '-H', f'{header}: 3rag.com', url]
         response = execute_subprocess(cmd)
-        if response and "iamsharan.com" in response.stdout:
+        if response and "3rag.com" in response.stdout:
             return True, header
     return False, None
 
@@ -41,6 +42,13 @@ def create_ascii_banner(text):
     f = Figlet(font='slant')
     ascii_art = f.renderText(text)
     print(ascii_art)
+
+def check_url_vulnerability(url, headers):
+    is_vulnerable, payload = is_url_vulnerable_to_injection(url, headers)
+    if is_vulnerable:
+        print_colored_message("red", f"{url} is vulnerable to Host Header Injection with the header: {payload}")
+    else:
+        print_colored_message("green", f"{url} is not vulnerable to Host Header Injection")
 
 def main():
     create_ascii_banner('Header Injection')
@@ -91,12 +99,8 @@ def main():
         print("Invalid command. Usage: script.py -f file.txt OR script.py -d domain.com")
         sys.exit(1)
 
-    for url in urls:
-        is_vulnerable, payload = is_url_vulnerable_to_injection(url, headers)
-        if is_vulnerable:
-            print_colored_message("red", f"{url} is vulnerable to Host Header Injection with the header: {payload}")
-        else:
-            print_colored_message("green", f"{url} is not vulnerable to Host Header Injection")
+    with ThreadPoolExecutor(max_workers=15) as executor:
+        executor.map(lambda url: check_url_vulnerability(url, headers), urls)
 
 if __name__ == "__main__":
     main()
